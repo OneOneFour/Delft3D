@@ -45,9 +45,15 @@ if(UNIX)
     target_include_directories(${library_name} 
                                PRIVATE  
                                ${header_path}
-                              "${expat_include_path}")
+                              "${expat_include_path}"
+                              "${mpi_include_path}")
 
     target_link_libraries(${library_name} ${oss_dependencies})
+    if (TARGET MPI::MPI_C)
+        target_link_libraries(${library_name} MPI::MPI_C)
+    elseif (DEFINED mpi_c_library AND NOT "${mpi_c_library}" STREQUAL "")
+        target_link_libraries(${library_name} "${mpi_c_library}")
+    endif()
     target_compile_options(${library_name} PRIVATE ${cpp_compiler_flags})
     set_target_properties(${library_name} PROPERTIES OUTPUT_NAME dimr)
 endif()
