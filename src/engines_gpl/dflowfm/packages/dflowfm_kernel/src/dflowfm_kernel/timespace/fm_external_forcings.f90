@@ -93,6 +93,17 @@ module fm_external_forcings
 
    public :: set_external_forcings
    public :: calculate_wind_stresses
+   public :: print_error_message
+   public :: select_wave_variables_subgroup
+   public :: ini_alloc_laterals
+   public :: addtimespacerelation_boundaries
+   public :: register_quantity_pli_combination
+   public :: quantity_pli_combination_is_registered
+   public :: init_registered_items
+   public :: init_threttimes
+   public :: allocate_patm
+   public :: allocate_pseudo_air_pressure
+   public :: allocate_water_level_correction
 
    procedure(fill_open_boundary_cells_with_inner_values_any), pointer :: fill_open_boundary_cells_with_inner_values !< boundary update routine to be called
 

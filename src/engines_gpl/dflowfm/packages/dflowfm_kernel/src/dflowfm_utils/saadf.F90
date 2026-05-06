@@ -10402,8 +10402,8 @@ contains
 !----------------------------------------------------------------------
 ! local
 !
-      integer i, j, itmp
-      integer, external :: irand
+   integer i, j, itmp
+   real(dp) :: randval
 !----------------------------------------------------------------------
       no_warning_unused_dummy_argument(iseed)
 
@@ -10412,7 +10412,8 @@ contains
       end do
 !
       do i = 1, n
-         j = mod(irand(0), n) + 1
+         call random_number(randval)
+         j = int(randval * n) + 1
          itmp = iord(i)
          iord(i) = iord(j)
          iord(j) = itmp

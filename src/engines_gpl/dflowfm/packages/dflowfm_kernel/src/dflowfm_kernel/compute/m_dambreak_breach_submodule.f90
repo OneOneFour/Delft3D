@@ -28,7 +28,6 @@
 !-------------------------------------------------------------------------------
 
 submodule(m_dambreak_breach) m_dambreak_breach_submodule
-   use precision, only: dp
    use m_meteo, only: ec_undef_int
 
    implicit none
@@ -79,7 +78,6 @@ submodule(m_dambreak_breach) m_dambreak_breach_submodule
       procedure(calculate_breach_growth_using_any_model), pointer :: calculate_breach_growth => null()
    contains
       procedure :: array_allocation => allocate_arrays
-      final :: deallocate_arrays
    end type
 
    type(t_dambreak), target, dimension(:), allocatable :: dambreaks(:) !< dambreak data for all dambreaks
@@ -306,8 +304,6 @@ contains
 
    !> Calculate breach growth using vdKnaap model
    subroutine calculate_breach_growth_using_vdKnaap_model(dambreak, time, time_step)
-      import t_dambreak
-
       class(t_dambreak), intent(inout) :: dambreak !< dambreak data for a single dambreak
       real(kind=dp), intent(in) :: time !< current time
       real(kind=dp), intent(in) :: time_step !< time step
@@ -351,8 +347,6 @@ contains
    subroutine calculate_breach_growth_using_Verheij_vdKnaap_model(dambreak, time, time_step)
       use ieee_arithmetic, only: ieee_is_nan
       use m_physcoef, only: gravity => ag
-      import t_dambreak
-
       class(t_dambreak), intent(inout) :: dambreak !< dambreak data for a single dambreak
       real(kind=dp), intent(in) :: time !< current time
       real(kind=dp), intent(in) :: time_step !< time step
@@ -417,8 +411,6 @@ contains
       use m_meteo, only: ec_gettimespacevalue_by_itemID, ecInstancePtr
       use m_flowtimes, only: irefdate, tunit, tzone
       use messagehandling, only: msgbuf, LEVEL_ERROR, SetMessage
-      import t_dambreak
-
       class(t_dambreak), intent(inout) :: dambreak !< dambreak data for a single dambreak
       real(kind=dp), intent(in) :: time !< current time
       real(kind=dp), intent(in) :: time_step !< time step

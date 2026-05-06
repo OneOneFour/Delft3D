@@ -53,7 +53,6 @@ subroutine pldep
 !   sun   on SUN
 !   w32   on Windows
 !   intel on Linux
-!!--pseudo code and references--------------------------------------------------
 ! NONE
 !!------------------------------------------------------------------------------
 !
@@ -77,20 +76,14 @@ subroutine pldep
 #if defined (WIN32)
 !!--declarations----------------------------------------------------------------
 use precision_lint
-use ifcore
-use ifport
 !
 implicit none
 !
 ! Local variables
 !
- integer(2) :: sts
-!
 !! executable statements -------------------------------------------------------
 !
-call getcontrolfpqq(sts       )
-sts = sts .or. fpcw$underflow
-call setcontrolfpqq(sts       )
+! Legacy Intel/Compaq underflow-control calls removed for portability.
 #endif
 !
 !

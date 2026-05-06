@@ -15,3 +15,9 @@ f90twtest(test_3d_layer_administration
     LIBRARIES dflowfm_kernel
     VISUAL_STUDIO_PATH engines_gpl/dflowfm/test
 )
+
+if (UNIX)
+    # f90tw tests are linked through a C++ driver; add OpenMP runtime explicitly.
+    target_link_options(test_dflowfm_kernel_example PRIVATE ${openmp_flag})
+    target_link_options(test_3d_layer_administration PRIVATE ${openmp_flag})
+endif()

@@ -28,7 +28,17 @@ if (UNIX)
     find_package(PkgConfig REQUIRED)
     pkg_check_modules(PETSC REQUIRED IMPORTED_TARGET PETSc)
 
+    target_include_directories(${library_name} PRIVATE
+                               include
+                               ${mpi_module_path}
+                               ${mpi_include_path})
+
     target_link_libraries(${library_name} PRIVATE PkgConfig::PETSC)
+    if (TARGET MPI::MPI_Fortran)
+        target_link_libraries(${library_name} PRIVATE MPI::MPI_Fortran)
+    elseif (DEFINED mpi_fortran_library)
+        target_link_libraries(${library_name} PRIVATE ${mpi_fortran_library})
+    endif()
 endif(UNIX)
 
 target_link_libraries(${library_name} PRIVATE

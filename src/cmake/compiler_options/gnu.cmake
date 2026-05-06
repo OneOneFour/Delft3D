@@ -12,13 +12,14 @@ if (UNIX)
 
     set(CMAKE_CXX_FLAGS_RELEASE      "-O2 -fPIC -fopenmp")
     set(CMAKE_C_FLAGS_RELEASE        "-O2 -fPIC -fopenmp")
-    set(CMAKE_Fortran_FLAGS          "-O2 -fPIC -fopenmp -ffixed-line-length-132 -ffree-line-length-512 -fallow-argument-mismatch")
+    set(CMAKE_Fortran_FLAGS          "-O2 -fPIC -fopenmp -ffixed-line-length-132 -ffree-line-length-none -fallow-argument-mismatch")
     set(CMAKE_CXX_FLAGS_DEBUG        "-g -O0 -fPIC -fopenmp")
     set(CMAKE_C_FLAGS_DEBUG          "-g -O0 -fPIC -fopenmp")
     
     set(cpp_compiler_flags           "-std=c++17")
     set(dialect                      "-std=f2008")
     set(bounds                       "-fbounds-check")
+    set(openmp_flag                  "-fopenmp")
 
     set(file_preprocessor_flag       "-cpp")
     set(traceback_flag               "-fbacktrace")

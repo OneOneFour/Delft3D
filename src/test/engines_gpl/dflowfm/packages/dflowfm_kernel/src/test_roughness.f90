@@ -24,11 +24,24 @@
 module test_roughness
     use ftnunit
     use m_roughness
+    use iso_c_binding, only: c_char, c_null_char
 
 
     implicit none
 
+     interface
+         integer function c_chdir(path) bind(C, name="chdir")
+             use iso_c_binding, only: c_char
+             character(kind=c_char) :: path(*)
+         end function c_chdir
+     end interface
+
 contains
+
+logical function CHANGEDIRQQ(path)
+    character(*), intent(in) :: path
+    CHANGEDIRQQ = (c_chdir(trim(path)//c_null_char) == 0)
+end function CHANGEDIRQQ
 
 subroutine tests_roughness
     call test( test_roughness_branches,     'Tests roughness' )
@@ -39,7 +52,6 @@ subroutine test_roughness_branches
    use m_roughness
    use m_read_roughness
    use m_hash_search
-   use ifport
    
    type(t_network)         :: network
    type(t_CSType), pointer :: cross

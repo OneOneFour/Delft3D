@@ -750,7 +750,6 @@ subroutine JZSLEEP(sleeptime)
 !#ifdef HAVE_CONFIG_H
 !#include "config.h"
 !#ifdef HAVE_IFPORT
-!  use ifport
 !#endif
 !#elif (defined(WIN32))
 !    USE MSFWIN

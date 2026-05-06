@@ -23,11 +23,24 @@
 module test_obserCrossSections
     use ftnunit
     use precision
+    use iso_c_binding, only: c_char, c_null_char
 
     implicit none
     real(fp), parameter :: eps = 1.0e-6_fp
 
+    interface
+       integer function c_chdir(path) bind(C, name="chdir")
+          use iso_c_binding, only: c_char
+          character(kind=c_char) :: path(*)
+       end function c_chdir
+    end interface
+
 contains
+
+logical function CHANGEDIRQQ(path)
+    character(*), intent(in) :: path
+    CHANGEDIRQQ = (c_chdir(trim(path)//c_null_char) == 0)
+end function CHANGEDIRQQ
 !
 !
 !==============================================================================
@@ -45,7 +58,6 @@ subroutine test_read_snapped_observ_crs
     use unstruc_model
     use m_partitioninfo, only: jampi
     use network_data, only: numk
-    use ifport
     use m_flow_modelinit, only: flow_modelinit
     use m_resetfullflowmodel, only: resetfullflowmodel
     !

@@ -23,11 +23,24 @@
 module test_MDU_File_Version
    use ftnunit
    use precision
+   use iso_c_binding, only: c_char, c_null_char
 
    implicit none
    real(fp), parameter :: eps = 1.0e-6_fp
 
+   interface
+      integer function c_chdir(path) bind(C, name="chdir")
+         use iso_c_binding, only: c_char
+         character(kind=c_char) :: path(*)
+      end function c_chdir
+   end interface
+
 contains
+
+   logical function CHANGEDIRQQ(path)
+      character(*), intent(in) :: path
+      CHANGEDIRQQ = (c_chdir(trim(path)//c_null_char) == 0)
+   end function CHANGEDIRQQ
 !
 !
 !==============================================================================
@@ -43,7 +56,6 @@ contains
       use unstruc_model, only: readMDUFile
       use dfm_error, only: DFM_NOERR
       use m_partitioninfo, only: jampi
-      use ifport, only: CHANGEDIRQQ
       use m_resetfullflowmodel, only: resetFullFlowModel
 
       integer :: ierr
@@ -63,7 +75,6 @@ contains
       use unstruc_model, only: readMDUFile
       use dfm_error, only: DFM_NOERR
       use m_partitioninfo, only: jampi
-      use ifport, only: CHANGEDIRQQ
       use m_resetfullflowmodel, only: resetFullFlowModel
 
       integer :: ierr
@@ -83,7 +94,6 @@ contains
       use unstruc_model, only: readMDUFile
       use dfm_error, only: DFM_NOERR
       use m_partitioninfo, only: jampi
-      use ifport, only: CHANGEDIRQQ
       use m_resetfullflowmodel, only: resetFullFlowModel
       use m_flow, only: laycof
       use precision, only: dp

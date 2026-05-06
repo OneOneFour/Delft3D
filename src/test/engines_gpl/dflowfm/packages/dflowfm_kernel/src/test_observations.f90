@@ -25,34 +25,44 @@ module chdir_mod
   implicit none
 
   interface
-    integer function c_chdir(path) bind(C,name="chdir")
-      use iso_c_binding
-      character(kind=c_char) :: path(*)
+    integer(c_int) function c_chdir(path) bind(C, name="chdir")
+      use iso_c_binding, only: c_char, c_int
+      character(kind=c_char), intent(in) :: path(*)
     end function
   end interface
 
 contains
 
-  subroutine chdir(path, err)
-    use iso_c_binding
+  subroutine change_dir(path, err)
+    use iso_c_binding, only: c_null_char, c_int
     character(*) :: path
-    integer, optional, intent(out) :: err
-    integer :: loc_err
+    integer(c_int), optional, intent(out) :: err
+    integer(c_int) :: loc_err
 
     loc_err =  c_chdir(path//c_null_char)
 
     if (present(err)) err = loc_err
-  end subroutine
+  end subroutine change_dir
 end module chdir_mod
     
 module test_observations
     use ftnunit
     use precision
+  use iso_c_binding, only: c_int
+  use chdir_mod, only: change_dir
 
     implicit none
     real(fp), parameter :: eps = 1.0e-6_fp
 
 contains
+
+  logical function CHANGEDIRQQ(path)
+    character(*), intent(in) :: path
+    integer(c_int) :: ierr
+
+    call change_dir(trim(path), ierr)
+    CHANGEDIRQQ = (ierr == 0)
+  end function CHANGEDIRQQ
 !
 !
 !==============================================================================
@@ -104,7 +114,6 @@ subroutine test_read_snapped_obs_points
     use m_observations
     use unstruc_model
     use m_partitioninfo, only: jampi
-    use ifport
     use m_flow_modelinit, only: flow_modelinit
     use m_resetfullflowmodel, only: resetfullflowmodel
     !

@@ -294,9 +294,7 @@ call SOFLOW( &
 !debug 
         &   debug_wr                                   , &
 !units  
-        &   juer                                       , &
-!close
-        &)
+        &   juer                                       )
     
 !FM1DIMP2DO: remove debug
 fm1dimp_debug_k1=fm1dimp_debug_k1+1 !FM1DIMP2DO: remove debug variables

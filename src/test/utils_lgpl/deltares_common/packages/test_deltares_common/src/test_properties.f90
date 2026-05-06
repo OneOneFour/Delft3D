@@ -267,7 +267,7 @@ contains
       ! Retrieve strings - array dimension large enough/limited
       !                  - default character
       !
-      expected = ['A', 'B', 'C', '', 'D', 'E', '?', '?', '?', '?']
+      expected = [character(len=20) :: 'A', 'B', 'C', ' ', 'D', 'E', '?', '?', '?', '?']
       string = '?'
       call prop_get(tree, 'multiple', 'setOfStrings1', size(string), string, success)
 
@@ -276,7 +276,7 @@ contains
          call assert_equal(string(i), expected(i), "Substring should be parsed correctly (default separator)")
       end do
 
-      expected = ['A', 'B', '?', '?', '?', '?', '?', '?', '?', '?']
+      expected = [character(len=20) :: 'A', 'B', '?', '?', '?', '?', '?', '?', '?', '?']
       string = '?'
       call prop_get(tree, 'multiple', 'setOfStrings1', 2, string, success)
 

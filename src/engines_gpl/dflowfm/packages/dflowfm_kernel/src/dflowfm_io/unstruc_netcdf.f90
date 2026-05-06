@@ -2428,7 +2428,7 @@ contains
       integer :: ierr
       logical :: jaInDefine
       ierr = nf90_noerr
-      jaInDefine = 0
+      jaInDefine = .false.
 
       ierr = ncu_ensure_define_mode(ncid, jaInDefine)
       if (ierr /= nf90_noerr) then
@@ -9459,7 +9459,7 @@ contains
             call definencvar(imapfile, id_air_pressure(iid), nf90_double, idims, 'Patm', 'Atmospheric Pressure', 'N m-2', 'FlowElem_xcc FlowElem_ycc')
          end if
 
-         if (ja_icecover) then
+         if (ja_icecover > 0) then
             if (ice_mapout%ice_s1) then
                call definencvar(imapfile, id_ice_s1(iid), nf90_double, idims, 'ice_s1', 'Sea surface height of open water', 'm', 'FlowElem_xcc FlowElem_ycc')
             end if
@@ -10962,7 +10962,7 @@ contains
          ierr = nf90_put_var(imapfile, id_air_pressure(iid), air_pressure, [1, itim], [ndxndxi, 1])
       end if
 
-      if (ja_icecover) then
+      if (ja_icecover > 0) then
          if (ice_mapout%ice_s1) then
             ierr = nf90_put_var(imapfile, id_ice_s1(iid), ice_s1, [1, itim], [ndxndxi, 1])
          end if
@@ -11750,7 +11750,7 @@ contains
 
       call readyy('Writing net data', 0.0_dp)
 
-      jaInDefine = 0
+      jaInDefine = .false.
       n1d2dcontacts = 0
       num_1d_nodes = 0
       node_index = 0
@@ -15335,7 +15335,7 @@ contains
       real(kind=dp), allocatable :: x2dn(:), y2dn(:), z2dn(:)
       integer :: netNodeReMappedIndex, nnSize
 
-      jaInDefine = 0
+      jaInDefine = .false.
       n1d2dcontacts = 0
       n1dedges = 0
       start_index = 1
@@ -15711,7 +15711,7 @@ contains
       character(len=ug_idsLen), allocatable :: nodeids_remap(:)
       character(len=ug_idsLongNamesLen), allocatable :: nodelongnames_remap(:)
 
-      jaInDefine = 0
+      jaInDefine = .false.
       n1d2dcontacts = 0
       n1dedges = 0
       start_index = 1
@@ -16063,7 +16063,7 @@ contains
       real(kind=dp), dimension(:), allocatable :: zz
       real(kind=dp), dimension(:, :), allocatable :: work2
 
-      jaInDefine = 0
+      jaInDefine = .false.
 
       if (ndxi <= 0) then
          call mess(LEVEL_WARN, 'No flow elements in model, will not write flow geometry.')

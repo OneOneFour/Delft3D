@@ -23,6 +23,7 @@
 module test_ini_Field_1dField
     use ftnunit
     use precision
+   use iso_c_binding, only: c_char, c_null_char
     use messagehandling, only: resetMaxerrorLevel
 
     implicit none
@@ -31,7 +32,19 @@ module test_ini_Field_1dField
 
     real(fp), parameter :: eps = 1.0e-6_fp
 
+   interface
+      integer function c_chdir(path) bind(C, name="chdir")
+        use iso_c_binding, only: c_char
+        character(kind=c_char) :: path(*)
+      end function c_chdir
+   end interface
+
 contains
+
+logical function CHANGEDIRQQ(path)
+   character(*), intent(in) :: path
+   CHANGEDIRQQ = (c_chdir(trim(path)//c_null_char) == 0)
+end function CHANGEDIRQQ
 !
 !
 !==============================================================================
@@ -67,7 +80,6 @@ subroutine test_iniField1dField
     use unstruc_channel_flow
     use m_inquire_flowgeom
     use dfm_error
-    use ifport
     use m_flow_modelinit, only: flow_modelinit
     use m_resetfullflowmodel, only: resetfullflowmodel
     !
@@ -180,7 +192,6 @@ subroutine test_iniField1dField_waterdepth
     use m_netw
     use unstruc_model
     use dfm_error
-    use ifport
     use m_flow_modelinit, only: flow_modelinit
     use m_resetfullflowmodel, only: resetfullflowmodel
 
@@ -380,7 +391,6 @@ subroutine test_iniField1dField_waterlevel
     use m_netw
     use unstruc_model
     use dfm_error
-    use ifport
     use m_flow_modelinit, only: flow_modelinit
     use m_resetfullflowmodel, only: resetfullflowmodel
     !
@@ -580,7 +590,6 @@ subroutine test_iniField1dField_waterdepth_cross_sections
     use m_netw
     use unstruc_model
     use dfm_error
-    use ifport
     use m_flow_modelinit, only: flow_modelinit
     use m_resetfullflowmodel, only: resetfullflowmodel
     !
@@ -630,7 +639,6 @@ subroutine two_branch_water_depth_and_level_combination(level_first_branch, leve
     use m_flowgeom, only: bl
     use m_netw
     use unstruc_model
-    use ifport
     use m_flow_modelinit, only: flow_modelinit
     use m_resetfullflowmodel, only: resetfullflowmodel
 
@@ -726,7 +734,6 @@ subroutine test_iniField1d_waterlevel_2d_points_not_set()
     use m_partitioninfo, only: jampi
     use m_netw
     use unstruc_model
-    use ifport
     use m_flow_modelinit, only: flow_modelinit
     use m_resetfullflowmodel, only: resetfullflowmodel
 

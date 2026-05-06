@@ -23,12 +23,25 @@
 module test_read_property
    use ftnunit
    use precision
+   use iso_c_binding, only: c_char, c_null_char
    use m_read_property, only: read_property
 
    implicit none
    real(fp), parameter :: eps = 1.0e-6_fp
 
+   interface
+      integer function c_chdir(path) bind(C, name="chdir")
+         use iso_c_binding, only: c_char
+         character(kind=c_char) :: path(*)
+      end function c_chdir
+   end interface
+
 contains
+
+   logical function CHANGEDIRQQ(path)
+      character(*), intent(in) :: path
+      CHANGEDIRQQ = (c_chdir(trim(path)//c_null_char) == 0)
+   end function CHANGEDIRQQ
 !
 !
 !==============================================================================
@@ -41,7 +54,6 @@ contains
 !> tests reading of blocks for generalstructure in 2D3D format
    subroutine test_generalstructure_2d3d
       use dfm_error
-      use ifport, only: CHANGEDIRQQ
       use properties
       use mathconsts, only: eps_hp
       use m_strucs

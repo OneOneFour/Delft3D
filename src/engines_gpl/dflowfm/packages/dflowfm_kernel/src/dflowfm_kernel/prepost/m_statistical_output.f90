@@ -204,7 +204,7 @@ contains
       type(t_output_variable_set), intent(inout) :: output_set !< Output set that item will be added to
       type(t_output_quantity_config), intent(in) :: output_config !< Output quantity config linked to this output item, a copy will be stored in the new output item
       real(kind=dp), pointer, dimension(:), intent(in) :: data_pointer !< Pointer to output quantity data ("source input")
-      procedure(process_data_interface_double), optional, pointer, intent(in) :: source_input_function_pointer !< (optional) Function pointer for producing/processing the source data, if no direct data_pointer is available
+      procedure(process_data_interface_double), optional :: source_input_function_pointer !< (optional) callback for producing/processing the source data, if no direct data_pointer is available
 
       type(t_output_variable_item) :: item ! new item to be added
       character(len=len_trim(output_config%input_value)) :: valuestring
@@ -234,11 +234,9 @@ contains
             item%output_config = output_config
             item%source_input => data_pointer
             if (present(source_input_function_pointer)) then
-               if (associated(source_input_function_pointer)) then
-                  item%source_input_function_pointer => source_input_function_pointer
-                  ! First "init" call to callback functions, such that %source_input is allocated
-                  call item%source_input_function_pointer(item%source_input)
-               end if
+               item%source_input_function_pointer => source_input_function_pointer
+               ! First "init" call to callback functions, such that %source_input is allocated
+               call item%source_input_function_pointer(item%source_input)
             end if
 
             output_set%statout(output_set%count) = item

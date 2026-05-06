@@ -78,21 +78,15 @@ subroutine pldep
 !!--declarations----------------------------------------------------------------
 use precision_kubint
 !use dflib
-use ifcore
-use ifport
 
 !
 implicit none
 !
 ! Local variables
 !
- integer(2) :: sts
-!
 !! executable statements -------------------------------------------------------
 !
-call getcontrolfpqq(sts       )
-sts = sts .or. fpcw$underflow
-call setcontrolfpqq(sts       )
+! Legacy Intel/Compaq underflow-control calls removed for portability.
 #endif
 !
 !

@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.30)
+cmake_minimum_required(VERSION 3.28)
 
 project(CMake)
 enable_testing()
@@ -127,7 +127,15 @@ if (UNIX)
     #MPI
     find_package(MPI REQUIRED)
     add_definitions(-DHAVE_MPI)
-    set(mpi_module_path ${mpi_include_path})
+    # On Unix, derive MPI include/module paths from FindMPI so 'use mpi' can locate mpi.mod.
+    set(mpi_include_path ${MPI_Fortran_INCLUDE_DIRS})
+    set(mpi_module_path ${MPI_Fortran_INCLUDE_DIRS})
+    if (TARGET MPI::MPI_Fortran)
+        set(mpi_fortran_library MPI::MPI_Fortran)
+    endif()
+    if (TARGET MPI::MPI_C)
+        set(mpi_c_library MPI::MPI_C)
+    endif()
 
     #NetCDF
     pkg_check_modules(NETCDF     REQUIRED netcdf)

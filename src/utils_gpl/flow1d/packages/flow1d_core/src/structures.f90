@@ -468,10 +468,12 @@ end subroutine deallocstructure
    pure function GetStrucType_from_string(string) result(istrtype)
       use string_module, only: str_lower
 
-      character(len=*), value :: string
+      character(len=*), intent(in) :: string
+      character(len=999) :: string_local
       integer :: istrtype
-      call str_lower(string, 999)
-      select case(trim(string))
+      string_local = string
+      call str_lower(string_local, 999)
+      select case(trim(string_local))
       case ('pump')
          istrtype = ST_PUMP
       case ('generalstructure')

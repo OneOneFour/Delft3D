@@ -58,7 +58,7 @@ module bmi
    use m_flow_finalize_single_timestep, only: flow_finalize_single_timestep
    use m_update_zcgen_widths_and_heights, only: update_zcgen_widths_and_heights
    use m_write_some_final_output, only: write_some_final_output
-   use iso_c_binding
+   use iso_c_binding, only: c_char, c_double, c_funptr, c_int, c_loc, c_ptr_iso => c_ptr
    use unstruc_api
    use m_gui ! this should be removed when jaGUI = 0 by default
 
@@ -127,7 +127,7 @@ contains
 !> Fills a string array with the model's input variable names as "long variable names" from the CSDMS Standard Names.
 !! NOTE: not implemented yet, will return a DFM_NOTIMPLEMENTED error.
    function get_input_var_names(names) bind(C, name="get_input_var_names") result(c_istat)
-      type(c_ptr), dimension(:), intent(out) :: names !< Array of C-pointers, will contain pointers to C-compatible strings upon return.
+      type(c_ptr_iso), dimension(:), intent(out) :: names !< Array of C-pointers, will contain pointers to C-compatible strings upon return.
       integer(c_int) :: c_istat !< Integer status code indicating success (zero) or failure (nonzero)
 
       integer :: i_var, var_count
@@ -154,7 +154,7 @@ contains
 !> Returns a string array of the model's output variable names as "long variable names" from the CSDMS Standard Names.
 !! NOTE: not implemented yet, will return a DFM_NOTIMPLEMENTED error.
    subroutine get_output_var_names(names) bind(C, name="get_output_var_names")
-      type(c_ptr), dimension(:), intent(out) :: names !< Array of C-pointers, will contain pointers to C-compatible strings upon return.
+      type(c_ptr_iso), dimension(:), intent(out) :: names !< Array of C-pointers, will contain pointers to C-compatible strings upon return.
       integer(c_int) :: c_istat !< Integer status code indicating success (zero) or failure (nonzero)
 
       integer :: i_var, var_count
@@ -1481,7 +1481,7 @@ contains
                if (c_value(i) == c_null_char) exit
                threadsString(i:i) = c_value(i)
             end do
-            read (threadsString, '(I)', iostat=ierr) md_numthreads
+            read (threadsString, *, iostat=ierr) md_numthreads
             if (ierr == 0) then
                ! Activate the new OpenMP threads setting
                ierr = init_openmp(md_numthreads, jampi)
