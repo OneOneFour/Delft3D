@@ -203,6 +203,9 @@ add_library(f90tw_gtest STATIC gtest_assertions.cpp)
 set_property(TARGET f90tw_gtest PROPERTY POSITION_INDEPENDENT_CODE ON)
 target_include_directories(f90tw_gtest PUBLIC ${gtest_INCLUDE_DIR})
 target_link_libraries(f90tw_gtest PUBLIC f90twi_gtest gtest)
+if(gtest_LIBRARY_DIR)
+    target_link_directories(f90tw_gtest PUBLIC "${gtest_LIBRARY_DIR}")
+endif()
 
 # make available the include and module paths
 set(f90tw_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR} CACHE STRING "f90tw include directory")
