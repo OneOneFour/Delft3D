@@ -616,12 +616,8 @@ contains
       ! Configure the preconditioner
       if (iprecnd /= 0) then
          if (PreconditioningType == PCCHOLESKY .or. PreconditioningType == PCICC) then
-            if (ierr == PETSC_OK) call PCSetType(Preconditioner, PCASM, ierr)
-            if (ierr == PETSC_OK) call PCASMSetOverlap(Preconditioner, 2, ierr)
+            if (ierr == PETSC_OK) call PCSetType(Preconditioner, PreconditioningType, ierr)
             if (ierr == PETSC_OK) call KSPSetUp(Solver, ierr)
-            if (ierr == PETSC_OK) call PCASMGetSubKSP(Preconditioner, PETSC_NULL_INTEGER, PETSC_NULL_INTEGER, SubSolver, ierr)
-            if (ierr == PETSC_OK) call KSPGetPC(SubSolver, SubPrec, ierr)
-            if (ierr == PETSC_OK) call PCSetType(SubPrec, PreconditioningType, ierr)
          else
             if (ierr == PETSC_OK) call PCSetType(Preconditioner, PreconditioningType, ierr)
             if (ierr == PETSC_OK) call KSPSetUp(Solver, ierr)
