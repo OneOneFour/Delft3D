@@ -81,6 +81,7 @@ end module m_petsc
 submodule(m_solve_petsc) m_solve_petsc_
    use precision, only: dp
    use iso_c_binding, only: c_int32_t, c_int64_t, c_double
+   use petsc
    implicit none
 
 contains
@@ -572,7 +573,7 @@ contains
       use m_petsc, only: PETSC_OK, PreconditioningType, Solver, Preconditioner, Amat, SubSolver, SubPrec
       use MessageHandling, only: mess, level_error
 
-      integer, intent(in) :: iprecnd !< preconditioner type, 0:default, 1: none, 2:incomplete Cholesky, 3:Cholesky, 4:GAMG (doesn't work)
+      integer, intent(in) :: iprecnd !< preconditioner type, 0:default, 1: none, 2:incomplete Cholesky, 3:Cholesky, 4:GAMG (does not work)
 
       integer :: jasucces
 
