@@ -40,7 +40,7 @@ module m_validate_input
     contains
     subroutine validate_units(units, logging_unit)
         !< Validates if the string <units> contains any of the invalid unit expressions defined in this subroutine.
-        character(*), intent(in) :: units        !< Units string to validate that it doesn't contain any invalid expressions.
+        character(*), intent(in) :: units        !< Units string to validate that it does not contain any invalid expressions.
         integer, intent(in)      :: logging_unit !< Number of the logging unit to which messages are sent.
 
         character(len=:), allocatable  :: units_message

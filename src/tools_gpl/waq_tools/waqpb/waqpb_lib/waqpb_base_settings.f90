@@ -127,7 +127,7 @@ contains
       character(len=256), dimension(:), allocatable :: accepted_flag_args
 
       ! This subroutine can be overridden in derived classes to provide specific flag arguments
-      accepted_flag_args = ['-h', '--help', '--usage']
+      accepted_flag_args = [character(len=256) :: '-h', '--help', '--usage']
    end function get_accepted_flag_args_base
 
    !> Get the accepted key-value arguments for the base settings
@@ -138,7 +138,7 @@ contains
       character(len=256), dimension(:), allocatable :: accepted_keyval_args
 
       ! This subroutine can be overridden in derived classes to provide specific key-value arguments
-      accepted_keyval_args = ['--prov-name', '--pdef-path']
+      accepted_keyval_args = [character(len=256) :: '--prov-name', '--pdef-path']
    end function get_accepted_keyval_args_base
 
    !> Show help information for the base settings

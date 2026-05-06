@@ -55,7 +55,8 @@ target_compile_options(${library_name} PRIVATE "SHELL:$<$<CONFIG:Debug>:${check_
 
 # SWAN fixed-form sources use columns 73-80 for sequence numbers; keep 72-col limit
 if (UNIX)
-    target_compile_options(${library_name} PRIVATE "-ffixed-line-length-72" "-fno-openmp")
+    target_compile_options(${library_name} PRIVATE "-ffixed-line-length-72")
+    set_target_properties(${library_name} PROPERTIES COMPILE_FLAGS "-fno-openmp")
 endif(UNIX)
 
 # Set additional compilation flags to match with Deltares-SWAN outside Delft3D

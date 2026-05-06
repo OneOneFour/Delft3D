@@ -80,6 +80,7 @@ end module m_petsc
 
 submodule(m_solve_petsc) m_solve_petsc_
    use precision, only: dp
+   use iso_c_binding, only: c_int32_t, c_int64_t, c_double
    implicit none
 
 contains
