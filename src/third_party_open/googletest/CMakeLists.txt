@@ -11,8 +11,8 @@ if(WIN32)
 else()
     # On Linux, use CMake's built-in FindGTest to find system-installed Google Test
     find_package(GTest REQUIRED)
-    # Extract include directory from the found GTest package for downstream targets
-    get_target_property(gtest_INCLUDE_DIR GTest::gtest INTERFACE_INCLUDE_DIRECTORIES)
+    # Expose include directory as gtest_INCLUDE_DIR for downstream targets (e.g., f90tw)
+    set(gtest_INCLUDE_DIR ${GTEST_INCLUDE_DIRS} CACHE PATH "GTest include directory")
     if(NOT TARGET gtest)
         add_library(gtest ALIAS GTest::gtest)
         add_library(gtest_main ALIAS GTest::gtest_main)
