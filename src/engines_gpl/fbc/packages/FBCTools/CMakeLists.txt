@@ -34,7 +34,10 @@ set(Boost_USE_RELEASE_LIBS ON)
 
 # version 1.65 is a minimum version
 if(LINUX)
-   find_package(Boost 1.65 REQUIRED COMPONENTS system filesystem)
+    if(POLICY CMP0167)
+    cmake_policy(SET CMP0167 NEW)
+    endif()
+   find_package(Boost 1.65 REQUIRED COMPONENTS filesystem)
    find_package(XercesC REQUIRED)
    if(XercesC_FOUND)
       message(STATUS "Found Xerces-C: ${XercesC_VERSION}")
