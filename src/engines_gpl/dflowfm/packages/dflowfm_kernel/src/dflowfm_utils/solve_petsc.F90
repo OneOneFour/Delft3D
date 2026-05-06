@@ -650,8 +650,8 @@ contains
 
       PetscErrorCode :: ierr = PETSC_OK
       PetscInt, parameter :: maxits = 4000
-      real(kind=dp), parameter :: RelTol = 1d-14
-      real(kind=dp), parameter :: AbsTol = 1d-14
+      real(kind=dp), parameter :: RelTol = 1.0e-14_dp
+      real(kind=dp), parameter :: AbsTol = 1.0e-14_dp
       real(kind=dp), parameter :: dTol = PETSC_DEFAULT_REAL
 
       jasucces = 0
@@ -661,8 +661,8 @@ contains
 
 !     Set ridiculous values so that it will be detected if the correct values are not
 !     filled in before use
-      adia = 123.4
-      aoff = 432.1
+      adia = 123.4_dp
+      aoff = 432.1_dp
 
 !     the following will destroy joff
       if (ndomains == 1) then
@@ -755,7 +755,7 @@ contains
 !     fill vector rhs
       if (ierr == PETSC_OK) call VecGetArrayF90(rhs, dum, ierr)
       i = 0
-      rhs_val = 0d0
+      rhs_val = 0.0_dp
       do n = nogauss + 1, nogauss + nocg
          ndn = noel(n)
          if (iglobal(ndn) > 0) then
@@ -769,7 +769,7 @@ contains
 !     fill vector sol
       if (ierr == PETSC_OK) call VecGetArrayF90(sol, dum, ierr)
 
-      sol_val = 0d0
+      sol_val = 0.0_dp
       do n = nogauss + 1, nogauss + nocg
          ndn = noel(n)
          if (iglobal(ndn) > 0) then
