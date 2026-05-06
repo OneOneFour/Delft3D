@@ -140,7 +140,7 @@ function(F90TWTEST NAME)
     # compile c and create the executable
     add_executable(${NAME} ${FTW_CFILES} ${F2HFILE})
     target_include_directories(${NAME} PRIVATE ${FPPINCLDS} ${CMAKE_CURRENT_BINARY_DIR} ${FTW_INCLUDES})
-    target_link_libraries(${NAME} PRIVATE ${FLIBNAME} f90tw_gtest)
+    target_link_libraries(${NAME} PRIVATE ${FLIBNAME} f90tw_gtest gtest)
     target_compile_definitions(${NAME} PUBLIC ${FTW_DEFINITIONS})
     add_dependencies(${NAME} ${FLIBNAME})
     set_target_properties(${NAME} ${FLIBNAME} PROPERTIES FOLDER ${FTW_VISUAL_STUDIO_PATH})
