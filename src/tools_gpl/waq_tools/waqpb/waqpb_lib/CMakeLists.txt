@@ -5,6 +5,9 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../include)
 
 create_target(${library_name} ${CMAKE_CURRENT_SOURCE_DIR} src_dir .)
 
+# Work around a gfortran ICE when compiling allocatable character arrays
+set_source_files_properties(waqpb_base_settings.f90 PROPERTIES COMPILE_OPTIONS "-O0")
+
 set(oss_dependencies deltares_common
                      nefis
                      waq_utils_f)
