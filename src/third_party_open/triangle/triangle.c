@@ -4246,7 +4246,7 @@ int subsegbytes;
     m->dummysub[6] = (subseg) m->dummytri;
     m->dummysub[7] = (subseg) m->dummytri;
     /* Set the boundary marker to zero. */
-    * (VOID *) (m->dummysub + (ptrdiff_t) 8) = 0;
+    * (int *) (m->dummysub + (ptrdiff_t) 8) = 0;
 
     /* Initialize the three adjoining subsegments of `dummytri' to be */
     /*   the omnipresent subsegment.                                  */
