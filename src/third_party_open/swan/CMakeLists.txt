@@ -27,7 +27,8 @@ if (UNIX)
     target_link_libraries(${library_name} PRIVATE
          netcdff)
     include_directories("${CMAKE_CURRENT_SOURCE_DIR}/include"
-                        ${version_include_dir})
+                        ${version_include_dir}
+                        ${mpi_module_path})
 
     add_definitions(-DHAVE_CONFIG_H=1)
 endif(UNIX)
