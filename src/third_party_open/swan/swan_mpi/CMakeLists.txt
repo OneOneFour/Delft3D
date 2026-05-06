@@ -63,6 +63,7 @@ if(UNIX)
                         ${CMAKE_BINARY_DIR}/fortran_module_dir)
 
     add_definitions(-DHAVE_CONFIG_H=1)
+    target_compile_options(${executable_name} PRIVATE "-ffixed-line-length-72")
 endif(UNIX)
 
 # Define additional compilation flags

@@ -739,11 +739,9 @@ contains
 
       integer :: i, n, jasucces
 
-      PetscScalar, dimension(1) :: dum
-      PetscOffset :: idum
+      PetscScalar, pointer :: dum(:)
 
       PetscErrorCode :: ierr = PETSC_OK
-      KSPConvergedReason :: Reason
       character(len=100) :: message
 
       jasucces = 0
@@ -759,7 +757,7 @@ contains
       end if
 
 !     fill vector rhs
-      if (ierr == PETSC_OK) call VecGetArray(rhs, dum, idum, ierr)
+      if (ierr == PETSC_OK) call VecGetArrayF90(rhs, dum, ierr)
       i = 0
       rhs_val = 0d0
       do n = nogauss + 1, nogauss + nocg
@@ -770,10 +768,10 @@ contains
          end if
       end do
 
-      if (ierr == PETSC_OK) call VecRestoreArray(rhs, dum, idum, ierr)
+      if (ierr == PETSC_OK) call VecRestoreArrayF90(rhs, dum, ierr)
 
 !     fill vector sol
-      if (ierr == PETSC_OK) call VecGetArray(sol, dum, idum, ierr)
+      if (ierr == PETSC_OK) call VecGetArrayF90(sol, dum, ierr)
 
       sol_val = 0d0
       do n = nogauss + 1, nogauss + nocg
@@ -783,7 +781,7 @@ contains
             sol_val(i) = s1(ndn)
          end if
       end do
-      if (ierr == PETSC_OK) call VecRestoreArray(sol, dum, idum, ierr)
+      if (ierr == PETSC_OK) call VecRestoreArrayF90(sol, dum, ierr)
       if (ierr /= PETSC_OK) call mess(LEVEL_INFO, 'conjugategradientPETSC: PETSC_ERROR (3)')
 
       if (ierr /= PETSC_OK) go to 1234
@@ -791,28 +789,17 @@ contains
 !     solve system
       if (ierr == PETSC_OK) call KSPSolve(Solver, rhs, sol, ierr)
 
-      if (ierr == PETSC_OK) call KSPGetConvergedReason(Solver, Reason, ierr)
-
 !     check for convergence
       if (ierr == PETSC_OK) then
-         if (reason == KSP_DIVERGED_INDEFINITE_PC) then
-            if (my_rank == 0) call mess(LEVEL_WARN, 'Divergence because of indefinite preconditioner')
-         else if (Reason < 0) then
-            call mess(LEVEL_WARN, 'Other kind of divergence: this should not happen, reason = ', Reason)
-!            see http://www.mcs.anl.gov/petsc/petsc-current/docs/manualpages/KSP/KSPConvergedReason.html for reason
-         else
-            call KSPGetIterationNumber(Solver, its, ierr)
-            !           compute residual
-            call KSPGetResidualNorm(Solver, rnorm, ierr)
-            !
-            if (ierr == PETSC_OK .and. my_rank == 0) then
-               if (jalogsolverconvergence == 1) then
-                  write (message, '(a,i0,a,g11.4,a,f8.4)') 'Solver converged in ', its, ' iterations, res=', rnorm, ' dt = ', dts
-                  call mess(LEVEL_INFO, message)
-               end if
+         call KSPGetIterationNumber(Solver, its, ierr)
+         call KSPGetResidualNorm(Solver, rnorm, ierr)
+         if (ierr == PETSC_OK .and. my_rank == 0) then
+            if (jalogsolverconvergence == 1) then
+               write (message, '(a,i0,a,g11.4,a,f8.4)') 'Solver iterations: ', its, ' res=', rnorm, ' dt = ', dts
+               call mess(LEVEL_INFO, message)
             end if
-            jasucces = 1
          end if
+         jasucces = 1
       end if
       if (ierr /= PETSC_OK) call mess(LEVEL_ERROR, 'conjugategradientPETSC: PETSC_ERROR (after solve)')
       if (ierr /= PETSC_OK) go to 1234

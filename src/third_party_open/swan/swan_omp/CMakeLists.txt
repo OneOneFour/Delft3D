@@ -63,6 +63,7 @@ if(UNIX)
 
     add_definitions(-DHAVE_CONFIG_H=1)
     set_target_properties(${executable_name} PROPERTIES COMPILE_FLAGS "${openmp_flag}")
+    target_compile_options(${executable_name} PRIVATE "-ffixed-line-length-72")
     target_link_options(${executable_name} PRIVATE ${openmp_flag})
 endif(UNIX)
 
