@@ -52,6 +52,11 @@ set_source_files_properties(${CMAKE_CURRENT_SOURCE_DIR}/src/ocpids.F
 # Set additional compilation properties, specific for Debug mode
 target_compile_options(${library_name} PRIVATE "SHELL:$<$<CONFIG:Debug>:${check_nopointers_flag}>")
 
+# SWAN fixed-form sources use columns 73-80 for sequence numbers; keep 72-col limit
+if (UNIX)
+    target_compile_options(${library_name} PRIVATE "-ffixed-line-length-72")
+endif(UNIX)
+
 # Set additional compilation flags to match with Deltares-SWAN outside Delft3D
 if (WIN32)
     target_compile_options(${library_name} PRIVATE
