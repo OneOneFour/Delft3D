@@ -91,8 +91,8 @@ contains
          stop
       end if
 
-      accepted_flag_args = this%get_accepted_flag_args()
-      accepted_keyval_args = this%get_accepted_keyval_args()
+      call move_alloc(this%get_accepted_flag_args(), accepted_flag_args)
+      call move_alloc(this%get_accepted_keyval_args(), accepted_keyval_args)
 
       invalid_args = get_invalid_args(accepted_flag_args, accepted_keyval_args)
       if (size(invalid_args) > 0) then

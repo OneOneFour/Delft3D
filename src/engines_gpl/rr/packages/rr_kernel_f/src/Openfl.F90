@@ -96,10 +96,10 @@
       if (icheck .eq. 1) then
          if (iform .eq. 1) then
             OPEN (newunit=iunit, FILE=Name, STATUS='Old',ACTION='READ')
-         elseif (iform .eq. 2) then
-           open (newunit=iunit, File=Name, Status='Old',mode='Read', Form='Unformatted')
-         else
-           open (newunit=iunit, File=Name, Status='Old',mode='Read', Form='Binary')
+             elseif (iform .eq. 2) then
+                open (newunit=iunit, File=Name, Status='Old', action='READ', Form='Unformatted')
+             else
+                open (newunit=iunit, File=Name, Status='Old', action='READ', Form='Unformatted', Access='Stream')
          endif
       elseif (icheck .eq. 2) then
          if (iform .eq. 1) then
@@ -115,7 +115,7 @@
          elseif (iform .eq. 2) then
             open (newunit=iunit, File=Name, Status='Unknown', Form='Unformatted')
          elseif (iform .eq. 3) then
-            open (newunit=iunit, File=Name, Status='Unknown', Form='Binary')
+            open (newunit=iunit, File=Name, Status='Unknown', Form='Unformatted', Access='Stream')
          endif
       endif
 !

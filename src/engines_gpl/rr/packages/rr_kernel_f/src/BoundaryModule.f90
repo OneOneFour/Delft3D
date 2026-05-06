@@ -639,14 +639,14 @@ contains
 ! Skip regel als hij niet begin met juist keyword ([Boundary]
        IF (STRING(1:10) .eq. '[Boundary]') then
           teller = teller + 1
-          if (AlreadyRead(teller) .eq. .false.) write(Iounit,'(A)') String (1:len_trim(String))
+          if (.not. AlreadyRead(teller)) write(Iounit,'(A)') String (1:len_trim(String))
 401    continue
           READ(infile1,'(A1000)',END=41,ERR=41,IOSTAT=IECODE) STRING
           if (STRING(1:10) .eq. '[Boundary]') then
              Backspace(infile1)
              goto 40
           endif
-          if (AlreadyRead(teller) .eq. .false.) write(Iounit,'(A)') String (1:len_trim(String))
+          if (.not. AlreadyRead(teller)) write(Iounit,'(A)') String (1:len_trim(String))
           goto 401
        Endif
     Enddo
