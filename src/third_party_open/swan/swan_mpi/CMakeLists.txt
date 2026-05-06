@@ -60,6 +60,7 @@ if(UNIX)
 
     include_directories("${CMAKE_CURRENT_SOURCE_DIR}/../include"
                         ${version_include_dir}
+                        ${mpi_module_path}
                         ${CMAKE_BINARY_DIR}/fortran_module_dir)
 
     add_definitions(-DHAVE_CONFIG_H=1)
