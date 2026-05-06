@@ -79,6 +79,7 @@ contains
       character(:), allocatable :: processes_overview_file_name
       integer :: i
       character(len=256), dimension(:), allocatable :: accepted_flag_args, accepted_keyval_args, invalid_args
+      character(len=256), dimension(:), allocatable :: tmp_flag_args, tmp_keyval_args
 
       call store_command_arguments()
 
@@ -91,8 +92,10 @@ contains
          stop
       end if
 
-      call move_alloc(this%get_accepted_flag_args(), accepted_flag_args)
-      call move_alloc(this%get_accepted_keyval_args(), accepted_keyval_args)
+      tmp_flag_args = this%get_accepted_flag_args()
+      tmp_keyval_args = this%get_accepted_keyval_args()
+      call move_alloc(tmp_flag_args, accepted_flag_args)
+      call move_alloc(tmp_keyval_args, accepted_keyval_args)
 
       invalid_args = get_invalid_args(accepted_flag_args, accepted_keyval_args)
       if (size(invalid_args) > 0) then
