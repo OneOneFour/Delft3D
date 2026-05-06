@@ -33,6 +33,7 @@
 #endif
 
 module m_petsc
+   use iso_c_binding, only: c_int32_t, c_int64_t, c_double
 #include <petsc/finclude/petscksp.h>
 
    use precision, only: dp
