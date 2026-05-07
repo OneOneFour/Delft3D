@@ -27,8 +27,10 @@ endif()
 
 # Boost C++, it is a required package, if not found configuration will abort
 if(WIN32)
-  # In windows use pre-compiled static libraries
-  set(Boost_USE_STATIC_LIBS ON)
+    # In windows use pre-compiled static libraries
+    set(Boost_USE_STATIC_LIBS ON)
+else()
+    set(Boost_USE_STATIC_LIBS OFF)
 endif()
 set(Boost_USE_RELEASE_LIBS ON)
 
@@ -37,7 +39,7 @@ if(LINUX)
     if(POLICY CMP0167)
     cmake_policy(SET CMP0167 NEW)
     endif()
-   find_package(Boost 1.65 REQUIRED COMPONENTS filesystem)
+    find_package(Boost 1.65 REQUIRED COMPONENTS filesystem system date_time)
    find_package(XercesC REQUIRED)
    if(XercesC_FOUND)
       message(STATUS "Found Xerces-C: ${XercesC_VERSION}")
@@ -49,24 +51,22 @@ else()
    set(BOOST_ROOT ${CMAKE_CURRENT_SOURCE_DIR}/thirdParty/boost)
    set(BOOST_LIBRARY_DIR ${BOOST_ROOT}/stage/lib)
 endif()
-link_directories(${BOOST_LIBRARY_DIR})
-include_directories(${BOOST_ROOT})
 
 # Set warning levels
 if(MSVC)
     set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} /W3")
     set(CMAKE_C_FLAGS_DEBUG   "${CMAKE_C_FLAGS_DEBUG} /W3")
 else()
-    set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -Wall -std=c++11 -lboost_filesystem -lboost_system -lboost_date_time") 
-    set(CMAKE_C_FLAGS_DEBUG   "${CMAKE_C_FLAGS_DEBUG} -Wall -std=c++11 -lboost_filesystem -lboost_system -lboost_date_time")
+    set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -Wall -std=c++11")
+    set(CMAKE_C_FLAGS_DEBUG   "${CMAKE_C_FLAGS_DEBUG} -Wall -std=c++11")
 endif()
 
 if(MSVC)
     set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} /W0")
     set(CMAKE_C_FLAGS_RELEASE   "${CMAKE_C_FLAGS_RELEASE} /W0")
 else()
-    set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -std=c++11 -lboost_filesystem -lboost_system -lboost_date_time") 
-    set(CMAKE_C_FLAGS_RELEASE   "${CMAKE_C_FLAGS_RELEASE} -std=c++11 -lboost_filesystem -lboost_system -lboost_date_time")
+    set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -std=c++11")
+    set(CMAKE_C_FLAGS_RELEASE   "${CMAKE_C_FLAGS_RELEASE} -std=c++11")
 endif()
 
 set (version_include_dir ${PROJECT_SOURCE_DIR}/../../version/)
@@ -119,9 +119,9 @@ elseif(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
     set(LINK_LIBRARIES FBCTools_static 
                        ${XercesC_LIBRARIES}
                        dl
-                       boost_system
-                       boost_date_time
-                       boost_filesystem)
+                       Boost::system
+                       Boost::date_time
+                       Boost::filesystem)
 endif()
 
 if(${CMAKE_COMPILER_IS_GNUCXX}) 
