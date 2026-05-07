@@ -59,10 +59,10 @@ if(UNIX)
                             netcdff
                             )
 
-    target_link_libraries(${executable_name}
-         ${exe_dependencies}
-         PkgConfig::NETCDF
-         )
+        target_link_libraries(${executable_name} PRIVATE
+            ${exe_dependencies}
+            PkgConfig::NETCDF
+            )
 
     if (TARGET MPI::MPI_Fortran)
         target_link_libraries(${executable_name} PRIVATE MPI::MPI_Fortran)
