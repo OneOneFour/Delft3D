@@ -268,7 +268,7 @@
 #if (defined(HAVE_CONFIG_H))
      Open (Iscren,FORM='FORMATTED')
 #else
-     Open (Iscren,carriagecontrol='FORTRAN')
+   Open (Iscren,FORM='FORMATTED')
 #endif
     call WriteHeader(Iscren)
   endif
