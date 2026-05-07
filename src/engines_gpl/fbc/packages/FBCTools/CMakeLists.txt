@@ -39,7 +39,7 @@ if(LINUX)
     if(POLICY CMP0167)
     cmake_policy(SET CMP0167 NEW)
     endif()
-    find_package(Boost 1.65 REQUIRED COMPONENTS filesystem system date_time)
+    find_package(Boost 1.65 REQUIRED MODULE COMPONENTS filesystem system date_time)
    find_package(XercesC REQUIRED)
    if(XercesC_FOUND)
       message(STATUS "Found Xerces-C: ${XercesC_VERSION}")
@@ -119,9 +119,7 @@ elseif(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
     set(LINK_LIBRARIES FBCTools_static 
                        ${XercesC_LIBRARIES}
                        dl
-                       Boost::system
-                       Boost::date_time
-                       Boost::filesystem)
+                       ${Boost_LIBRARIES})
 endif()
 
 if(${CMAKE_COMPILER_IS_GNUCXX}) 
