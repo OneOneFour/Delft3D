@@ -58,6 +58,12 @@ if(UNIX)
     target_link_libraries(${executable_name} PRIVATE
          netcdff)
 
+    if (TARGET MPI::MPI_Fortran)
+        target_link_libraries(${executable_name} PRIVATE MPI::MPI_Fortran)
+    elseif (DEFINED mpi_fortran_library)
+        target_link_libraries(${executable_name} PRIVATE ${mpi_fortran_library})
+    endif()
+
     include_directories("${CMAKE_CURRENT_SOURCE_DIR}/../include"
                         ${version_include_dir}
                         ${mpi_module_path}
