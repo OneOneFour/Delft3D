@@ -53,6 +53,8 @@ if (UNIX)
     target_link_libraries(${executable_name}
          ${oss_dependencies}
     )
+
+    target_link_libraries(${executable_name} PRIVATE dl)
          
     set_property(TARGET ${executable_name} PROPERTY LINKER_LANGUAGE Fortran)
     add_definitions(-DHAVE_CONFIG_H)
