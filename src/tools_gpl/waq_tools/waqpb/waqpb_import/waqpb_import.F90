@@ -511,15 +511,15 @@ subroutine iniind()
    return
 end subroutine iniind
 
-subroutine cratab(grp, newtab, initialConfgId, initialConfgName)
+subroutine cratab(grp_name, newtab, initialConfgId, initialConfgName)
 
    use m_string_utils
    use m_waqpb_data, only: &
       nproc, nconf, ncnpr, nitem, ncnsb, ncnsbm, &
       procid, confid, conpro, itemid, itemgr, r1_pid, r1_cid, &
-      r2_cid, r2_sid, sgrpid, grp, sgrpnm, confnm
+      r2_cid, r2_sid, sgrpid, sgrpnm, confnm
 
-   character(len=30) :: grp
+   character(len=30) :: grp_name
    character(len=10) :: initialConfgId
    character(len=50) :: initialConfgName
 
@@ -530,8 +530,8 @@ subroutine cratab(grp, newtab, initialConfgId, initialConfgName)
       ! NEW TABLES
       ! Dummy versions of tables P1 and P5
       nsgrp = 1
-      sgrpid(1) = grp
-      sgrpnm(1) = grp
+      sgrpid(1) = grp_name
+      sgrpnm(1) = grp_name
       nconf = 1
       confid(1) = initialConfgId
       confnm(1) = initialConfgName
@@ -548,7 +548,7 @@ subroutine cratab(grp, newtab, initialConfgId, initialConfgName)
 
       ncnsb = 0
       do iitem = 1, nitem
-         if (itemgr(iitem) == grp) then
+         if (itemgr(iitem) == grp_name) then
             ! This must be a substance
             ncnsb = ncnsb + 1
             r2_cid(ncnsb) = confid(1)
@@ -568,8 +568,8 @@ subroutine cratab(grp, newtab, initialConfgId, initialConfgName)
       end do
 
       do icnpr = 1, ncnpr
-         iproc = index_in_array(r1_pid(icnpr) (:10), procid(:nproc))
-         iconf = index_in_array(r1_cid(icnpr) (:10), confid(:nconf))
+         iproc = index_in_array(r1_pid(icnpr)(:10), procid(:nproc))
+         iconf = index_in_array(r1_cid(icnpr)(:10), confid(:nconf))
          if (iconf <= 0) stop 'BUG CRATAB'
          if (iproc > 0) conpro(iconf, iproc) = .true.
       end do
@@ -579,7 +579,7 @@ subroutine cratab(grp, newtab, initialConfgId, initialConfgName)
       ! NO EFFORT DONE TO CLEAR OLD ENTRIES
 
       do iitem = 1, nitem
-         if (itemgr(iitem) == grp) then
+         if (itemgr(iitem) == grp_name) then
             ! This must be a NEW substance
             if (ncnsb + 1 > ncnsbm) stop 'DIMENSION NCNSBM'
             ncnsb = ncnsb + 1
