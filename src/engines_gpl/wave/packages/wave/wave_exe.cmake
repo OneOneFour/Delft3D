@@ -63,6 +63,12 @@ if(UNIX)
          ${exe_dependencies}
          PkgConfig::NETCDF
          )
+
+    if (TARGET MPI::MPI_Fortran)
+        target_link_libraries(${executable_name} PRIVATE MPI::MPI_Fortran)
+    elseif (DEFINED mpi_fortran_library)
+        target_link_libraries(${executable_name} PRIVATE ${mpi_fortran_library})
+    endif()
 endif(UNIX)
 
 include_directories(${mpi_module_path} ${version_include_dir})
