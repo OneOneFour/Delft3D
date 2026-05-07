@@ -50,9 +50,9 @@ set(oss_dependencies_general control_lib
 if (UNIX)
     set(oss_dependencies ${oss_dependencies_general})
 
-    target_link_libraries(${executable_name}
-         ${oss_dependencies}
-    )
+        target_link_libraries(${executable_name} PRIVATE
+            ${oss_dependencies}
+        )
 
     target_link_libraries(${executable_name} PRIVATE dl)
          
