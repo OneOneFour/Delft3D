@@ -57,6 +57,7 @@ if(UNIX)
     set(THREADS_PREFER_PTHREAD_FLAG ON)
     find_package(Threads REQUIRED)
     target_link_libraries(${executable_name} PRIVATE Threads::Threads)
+    target_link_libraries(${executable_name} PRIVATE dl)
     add_definitions(-DHAVE_CONFIG_H)
 endif(UNIX)
 
