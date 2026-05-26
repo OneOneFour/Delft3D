@@ -67,6 +67,8 @@ contains
       real(kind=dp), pointer :: lonn(:), latn(:)
       integer :: make_latlon
 
+      nullify(lonn)
+      nullify(latn)
       ierr = DFM_NOERR
 
       make_latlon = 0

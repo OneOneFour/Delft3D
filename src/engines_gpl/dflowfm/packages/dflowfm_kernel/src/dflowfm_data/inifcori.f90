@@ -153,7 +153,11 @@ contains
          end do
       end if
 
-      k = size(fcori)
+      if (allocated(fcori)) then
+         k = size(fcori)
+      else
+         k = 0
+      end if
       if (k > 0) then
          !call newfil(msgbu, trim(getoutputdir())//trim(md_ident)//'_Cdwcoeff.tek')
          !call newfil(mout,'fcori.xyz')

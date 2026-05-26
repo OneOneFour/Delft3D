@@ -1484,50 +1484,92 @@ contains
       end if
       call unc_put_his_structure_names(ncid, jahisweir, id_weirgen_id, structure_names)
 
-      indices = [(network%sts%orificeIndices(i), i=1, network%sts%numOrifices)]
-      structure_names = [(trimexact(network%sts%struct(indices(i))%id, strlen_netcdf), i=1, network%sts%numOrifices)]
+      if (network%sts%numOrifices > 0) then
+         indices = [(network%sts%orificeIndices(i), i=1, network%sts%numOrifices)]
+         structure_names = [(trimexact(network%sts%struct(indices(i))%id, strlen_netcdf), i=1, network%sts%numOrifices)]
+      else
+         structure_names = [character(len=strlen_netcdf) ::]
+      end if
       call unc_put_his_structure_names(ncid, jahisorif, id_orifgen_id, structure_names)
 
-      structure_names = [(pump_ids(i), i=1, npumpsg)]
+      if (allocated(pump_ids)) then
+         structure_names = [(pump_ids(i), i=1, npumpsg)]
+      else
+         structure_names = [character(len=strlen_netcdf) ::]
+      end if
       call unc_put_his_structure_names(ncid, jahispump, id_pump_id, structure_names)
       call unc_put_his_structure_mid_points(ncid, ST_PUMP, jahispump, npumpsg, 'line', id_poly_xmid=id_pump_xmid, id_poly_ymid=id_pump_ymid)
 
-      structure_names = [(gate_ids(i), i=1, ngatesg)]
+      if (allocated(gate_ids)) then
+         structure_names = [(gate_ids(i), i=1, ngatesg)]
+      else
+         structure_names = [character(len=strlen_netcdf) ::]
+      end if
       call unc_put_his_structure_names(ncid, jahisgate, id_gate_id, structure_names)
 
       if (jaoldstr == 1) then
-         structure_names = [(cgen_ids(i), i=1, ncgensg)]
+         if (allocated(cgen_ids)) then
+            structure_names = [(cgen_ids(i), i=1, ncgensg)]
+         else
+            structure_names = [character(len=strlen_netcdf) ::]
+         end if
       else if (network%sts%numGeneralStructures > 0) then
          indices = [(network%sts%generalStructureIndices(i), i=1, ngenstru)]
          structure_names = [(trimexact(network%sts%struct(indices(i))%id, strlen_netcdf), i=1, ngenstru)]
-      else
+      else if (allocated(genstru2cgen) .and. allocated(cgen_ids)) then
          indices = [(genstru2cgen(i), i=1, ngenstru)]
          structure_names = [(cgen_ids(indices(i)), i=1, ngenstru)]
+      else
+         structure_names = [character(len=strlen_netcdf) ::]
       end if
       call unc_put_his_structure_names(ncid, jahiscgen, id_genstru_id, structure_names)
 
-      indices = [(network%sts%uniweirIndices(i), i=1, network%sts%numuniweirs)]
-      structure_names = [(trimexact(network%sts%struct(indices(i))%id, strlen_netcdf), i=1, network%sts%numuniweirs)]
+      if (network%sts%numuniweirs > 0) then
+         indices = [(network%sts%uniweirIndices(i), i=1, network%sts%numuniweirs)]
+         structure_names = [(trimexact(network%sts%struct(indices(i))%id, strlen_netcdf), i=1, network%sts%numuniweirs)]
+      else
+         structure_names = [character(len=strlen_netcdf) ::]
+      end if
       call unc_put_his_structure_names(ncid, jahisuniweir, id_uniweir_id, structure_names)
 
       structure_names = get_dambreak_names()
       call unc_put_his_structure_names(ncid, jahisdambreak, id_dambreak_id, structure_names)
 
-      indices = [(network%sts%culvertIndices(i), i=1, network%sts%numCulverts)]
-      structure_names = [(trimexact(network%sts%struct(indices(i))%id, strlen_netcdf), i=1, network%sts%numCulverts)]
+      if (network%sts%numCulverts > 0) then
+         indices = [(network%sts%culvertIndices(i), i=1, network%sts%numCulverts)]
+         structure_names = [(trimexact(network%sts%struct(indices(i))%id, strlen_netcdf), i=1, network%sts%numCulverts)]
+      else
+         structure_names = [character(len=strlen_netcdf) ::]
+      end if
       call unc_put_his_structure_names(ncid, jahisculv, id_culvert_id, structure_names)
 
-      indices = [(network%sts%bridgeIndices(i), i=1, network%sts%numBridges)]
-      structure_names = [(trimexact(network%sts%struct(indices(i))%id, strlen_netcdf), i=1, network%sts%numBridges)]
+      if (network%sts%numBridges > 0) then
+         indices = [(network%sts%bridgeIndices(i), i=1, network%sts%numBridges)]
+         structure_names = [(trimexact(network%sts%struct(indices(i))%id, strlen_netcdf), i=1, network%sts%numBridges)]
+      else
+         structure_names = [character(len=strlen_netcdf) ::]
+      end if
       call unc_put_his_structure_names(ncid, jahisbridge, id_bridge_id, structure_names)
 
-      structure_names = [(network%cmps%compound(i)%id, i=1, network%cmps%count)]
+      if (network%cmps%count > 0 .and. associated(network%cmps%compound)) then
+         structure_names = [(network%cmps%compound(i)%id, i=1, network%cmps%count)]
+      else
+         structure_names = [character(len=strlen_netcdf) ::]
+      end if
       call unc_put_his_structure_names(ncid, jahiscmpstru, id_cmpstru_id, structure_names)
 
-      structure_names = [(longculverts(i)%id, i=1, nlongculverts)]
+      if (allocated(longculverts)) then
+         structure_names = [(longculverts(i)%id, i=1, nlongculverts)]
+      else
+         structure_names = [character(len=strlen_netcdf) ::]
+      end if
       call unc_put_his_structure_names(ncid, jahislongculv, id_longculvert_id, structure_names)
 
-      structure_names = [(cdam_ids(i), i=1, ncdamsg)]
+      if (allocated(cdam_ids)) then
+         structure_names = [(cdam_ids(i), i=1, ncdamsg)]
+      else
+         structure_names = [character(len=strlen_netcdf) ::]
+      end if
       call unc_put_his_structure_names(ncid, jahiscdam, id_cdam_id, structure_names)
 
       structure_names = [(namobs(i), i=1, numobs + nummovobs)]
@@ -1536,23 +1578,37 @@ contains
       structure_names = [(crs(i)%name, i=1, ncrs)]
       call unc_put_his_structure_names(ncid, 1, id_crs_id, structure_names)
 
-      structure_names = [(rug(i)%name, i=1, num_rugs)]
+      if (allocated(rug)) then
+         structure_names = [(rug(i)%name, i=1, num_rugs)]
+      else
+         structure_names = [character(len=strlen_netcdf) ::]
+      end if
       call unc_put_his_structure_names(ncid, 1, id_rugname, structure_names)
 
-      structure_names = [(srcname(i), i=1, numsrc)]
+      if (allocated(srcname)) then
+         structure_names = [(srcname(i), i=1, numsrc)]
+      else
+         structure_names = [character(len=strlen_netcdf) ::]
+      end if
       call unc_put_his_structure_names(ncid, jahissourcesink, id_srcname, structure_names)
 
       if (network%sts%numGates > 0) then
          indices = [(network%sts%gateIndices(i), i=1, ngategen)]
          structure_names = [(trimexact(network%sts%struct(network%sts%gateIndices(i))%id, strlen_netcdf), i=1, ngategen)]
-      else
+      else if (allocated(gate2cgen) .and. allocated(cgen_ids)) then
          indices = [(gate2cgen(i), i=1, ngategen)]
          structure_names = [(cgen_ids(indices(i)), i=1, ngategen)]
+      else
+         structure_names = [character(len=strlen_netcdf) ::]
       end if
 
       call unc_put_his_structure_names(ncid, jahisgate, id_gategen_id, structure_names)
 
-      structure_names = [(lat_ids(i), i=1, numlatsg)]
+      if (allocated(lat_ids)) then
+         structure_names = [(lat_ids(i), i=1, numlatsg)]
+      else
+         structure_names = [character(len=strlen_netcdf) ::]
+      end if
       call unc_put_his_structure_names(ncid, jahislateral, id_lat_id, structure_names)
    end subroutine unc_put_his_structure_static_vars
 

@@ -143,11 +143,11 @@ contains
       integer :: ec_item_id, first, last, link, i, k
       logical :: first_time_wind
 
-      wx = 0.0_dp
-      wy = 0.0_dp
-      wdsu_x = 0.0_dp
-      wdsu_y = 0.0_dp
-      wcharnock = 0.0_dp
+      if (allocated(wx))        wx        = 0.0_dp
+      if (allocated(wy))        wy        = 0.0_dp
+      if (allocated(wdsu_x))    wdsu_x    = 0.0_dp
+      if (allocated(wdsu_y))    wdsu_y    = 0.0_dp
+      if (allocated(wcharnock)) wcharnock = 0.0_dp
       call initialize_array_with_zero(ec_pwxwy_x)
       call initialize_array_with_zero(ec_pwxwy_y)
 

@@ -1,0 +1,6 @@
+The following modules were not unloaded:
+  (Use "module --force purge" to unload all):
+
+  1) devel   2) math
+[1;93m==>[0m Warning: /home/users/cagem/.spack/package_repos/fncqgg4/repos/spack_repo/builtin/packages/gdal/package.py:514: spack.package.filter_system_paths is deprecated
+srun: fatal: SLURM_MEM_PER_CPU, SLURM_MEM_PER_GPU, and SLURM_MEM_PER_NODE are mutually exclusive.

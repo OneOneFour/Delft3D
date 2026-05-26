@@ -10,9 +10,9 @@ if (UNIX)
     # Set optional flags:
     message(STATUS "Setting Fortran compiler flags in Unix")
 
-    set(CMAKE_CXX_FLAGS_RELEASE      "-O2 -fPIC -fopenmp")
-    set(CMAKE_C_FLAGS_RELEASE        "-O2 -fPIC -fopenmp")
-    set(CMAKE_Fortran_FLAGS          "-O2 -fPIC -fopenmp -ffixed-line-length-132 -ffree-line-length-none -fallow-argument-mismatch")
+    set(CMAKE_CXX_FLAGS_RELEASE      "-O3 -march=native -fPIC -fopenmp")
+    set(CMAKE_C_FLAGS_RELEASE        "-O3 -march=native -fPIC -fopenmp")
+    set(CMAKE_Fortran_FLAGS          "-O3 -march=native -funroll-loops -g -fbacktrace -fPIC -fopenmp -ffixed-line-length-132 -ffree-line-length-none -fallow-argument-mismatch -D__linux__")
     set(CMAKE_CXX_FLAGS_DEBUG        "-g -O0 -fPIC -fopenmp")
     set(CMAKE_C_FLAGS_DEBUG          "-g -O0 -fPIC -fopenmp")
     
